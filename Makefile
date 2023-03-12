@@ -7,10 +7,7 @@ lint:
 start:
 	make -C calculator start
 
-test:
-	make -C calculator test
-
 build:
-	npm run build
+	make -C calculator build
 
 .PHONY: test build
