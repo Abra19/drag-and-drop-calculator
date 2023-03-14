@@ -1,0 +1,233 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@font-face {
+  font-family: "Inter Extra Bold";
+  src:
+    local("Inter Extra Bold"),
+    url("../assets/fonts/Inter/Inter-ExtraBold.woff2") format("woff2"),
+    url("../assets/fonts/Inter/Inter-ExtraBold.woff") format("woff");
+ }
+
+ @font-face {
+  font-family: "Inter Medium";
+  src:
+    local("Inter Medium"),
+    url("../assets/fonts/Inter/Inter-Medium.woff2") format("woff2"),
+    url("../assets/fonts/Inter/Inter-Medium.woff") format("woff");
+ }
+
+ @font-face {
+  font-family: "Inter Regular";
+  src:
+    local("Inter Regular"),
+    url("../assets/fonts/Inter/Inter-Regular.woff2") format("woff2"),
+    url("../assets/fonts/Inter/Inter-Regular.woff") format("woff");
+ }
+
+.body {
+  width: 695px;
+  height: auto;
+  position: relative;
+
+  margin: 0 auto;
+  padding: 39px 0 86px 76px;
+  background-color: #FFF;
+}
+
+/* general */
+.border-4 {
+  border: 4px solid #FFF;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.border-1 {
+  border: 1px solid #F3F4F6;
+  border-radius: 5px;
+}
+
+.border-2 {
+  border: 2px dashed #C4C4C4;
+  border-radius: 6px;
+}
+
+.mb-12 {
+  margin-bottom: 12px;
+}
+
+.mb-28 {
+  margin-bottom: 28px;
+}
+
+.mt-210 {
+  margin-top: 210px;
+}
+
+.p-button {
+  padding: 11px 12px 11px 40px;
+}
+
+.base-text {
+  font-family: "Inter Medium", sans-serif;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+}
+
+/* constructor */
+.calc-elements {
+  width: 240px;
+  margin-right: 56px;
+  margin-top: 67px;
+}
+
+.inputField {
+  cursor: move;
+
+  background: #F3F4F6;
+
+  padding: 4px 8px;
+
+  font-family: "Inter Extra Bold", sans-serif;
+  font-size: 36px;
+  line-height: 44px;
+  color: #111827;
+  text-align: right;
+}
+
+.inputField:hover, .inputField:active {
+  border: 2px solid #5D5FEF;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.calc-operators {
+  cursor: move;
+  background: #FFF;
+}
+
+.calc-operators:hover, .calc-operators:active {
+  border: 2px solid #5D5FEF;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.operator {
+  width: 52px;
+  height: 48px;
+  margin-right: 8px;
+}
+
+.operator:last-of-type {
+  margin-right: 0;
+}
+
+.operator:disabled, .chiffre:disabled {
+  background: #FFFFFF;
+  border: 1px solid #E2E3E5;
+  border-radius: 6px;
+  color: #000;
+}
+
+.d-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 48px);
+}
+
+.g-big {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.equal {
+  width: 100%;
+  height: 64px;
+}
+
+.equal:disabled {
+  background: #5D5FEF;
+  border-radius: 6px;
+  opacity: 1;
+}
+
+.equality:hover, .equal:active {
+  border: 2px solid #5D5FEF;
+}
+
+/* canvas */
+.field {
+  width: 243px;
+}
+
+.manage {
+  display: grid;
+  grid-template-columns: 108px 133px;
+  background-color: #F3F4F6;
+}
+
+.constructor {
+  background-color: #FFF;
+}
+
+.runtime:disabled, .constructor:disabled {
+  border: none;
+  background: #F3F4F6;
+}
+
+.constructor::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 15px;
+  z-index: 10;
+  width: 14px;
+  height: 11px;
+  background-image: url("../assets/images/icons/Quotes.svg");
+}
+
+.runtime::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 12px;
+  z-index: 10;
+  width: 20px;
+  height: 18px;
+  background-image: url("../assets/images/icons/Eye.svg");
+}
+
+.canvas {
+  height: 448px;
+}
+
+.big-text {
+  position: relative;
+  font-family: "Inter Medium", sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  color: #5D5FEF;
+  letter-spacing: 0.02em;
+}
+
+.big-text::before {
+  content: '';
+  position: absolute;
+  top: -32px;
+  left: 109px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  background-image: url("../assets/images/icons/Dnd.svg");
+}
+
+.small-text {
+  width: 106px;
+  margin: 0 auto;
+  font-family: "Inter Regular", sans-serif;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #6B7280;
+}

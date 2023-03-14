@@ -10,7 +10,7 @@ React SPA - you can make your own calculator and calculate then
 * Redux / Redux Toolkit
 * Bootstrap
 
-### [Try the application](https://abra19.github.io/react-liked-cards/)
+### [Try the application](https://drag-and-drop-calculator-delta.vercel.app)
 
 ### To get started
 
