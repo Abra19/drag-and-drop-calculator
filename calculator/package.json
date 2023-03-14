@@ -2,6 +2,7 @@
   "name": "drag-and-drop-calculator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "build/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "bootstrap": "^5.2.3",
