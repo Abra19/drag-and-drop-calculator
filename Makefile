@@ -10,4 +10,4 @@ start:
 build:
 	make -C calculator build
 
-.PHONY: test build
+.PHONY: build
