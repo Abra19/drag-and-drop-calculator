@@ -83,6 +83,7 @@
 
 .inputField {
   cursor: move;
+  width: 100%;
 
   background: #F3F4F6;
 
@@ -152,8 +153,13 @@
   opacity: 1;
 }
 
+.equality {
+  cursor: move;
+}
+
 .equality:hover, .equal:active {
   border: 2px solid #5D5FEF;
+  border-radius: 8px;
 }
 
 /* canvas */

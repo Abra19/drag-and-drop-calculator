@@ -7,6 +7,7 @@ import store from './slices/index.js';
 
 const init = () => {
   const root = ReactDOM.createRoot(document.getElementById('root'));
+
   return root.render(
     <Provider store={store}>
       <App />
