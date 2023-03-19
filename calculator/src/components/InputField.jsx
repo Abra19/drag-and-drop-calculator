@@ -1,23 +1,47 @@
 import { useDrag } from 'react-dnd';
+import { useSelector, useDispatch } from 'react-redux';
 
-const InputField = ({ id }) => {
+import { changeDropStatus } from '../slices/dropStatus.js';
+import { InputStyle } from '../styles/styled-components.js';
+
+export const Input = () => (
+  <input
+    type="text"
+    value="0"
+    className="inputField "
+    readOnly={Boolean(true)}
+  />
+);
+
+const InputField = () => {
+  const { isDropped } = useSelector((state) => state.drop);
+
+  const dispatch = useDispatch();
+
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: 'parts',
-    item: { id, name: 'inputField' },
+    item: { name: 'inputField' },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (item && dropResult) {
+        dispatch(changeDropStatus(true));
+      }
+    },
   }));
-  const opacity = isDragging ? 1 : 1;
+
+  console.log(isDragging, 'drag');
+
   return (
-    <input
+    <div
       ref={dragRef}
-      style={{ opacity }}
-      type="text"
-      value="0"
-      className="inputField border-4 mb-12"
-      readOnly={Boolean(true)}
-    />
+      className="inputWrapper mb-12"
+      style={InputStyle(isDropped)}
+    >
+      <Input />
+    </div>
   );
 };
 

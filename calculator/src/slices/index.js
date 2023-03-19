@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import calcReducer from './calcSlice.js';
+import dropReducer from './dropStatus.js';
 
 export default configureStore({
   reducer: {
-    cardData: calcReducer,
+    drop: dropReducer,
   },
 });
