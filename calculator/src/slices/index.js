@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import dropReducer from './dropStatus.js';
+import dropPartsReducer from './dropPartsStatus';
 
 export default configureStore({
   reducer: {
-    drop: dropReducer,
+    dropParts: dropPartsReducer,
   },
 });

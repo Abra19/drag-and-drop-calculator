@@ -80,10 +80,6 @@
   margin-top: 67px;
 }
 
-.inputWrapper {
-  box-sizing: border-box;
-}
-
 .inputField {
   width: 100%;
   background: #F3F4F6;
@@ -91,7 +87,6 @@
   border: none;
   border-radius: 4px;
   outline: 0;
-  cursor: move;
 
   font-family: "Inter Extra Bold", sans-serif;
   font-size: 36px;
@@ -104,18 +99,20 @@
   border: 2px solid #42AAFF;
   border-radius: 6px;
   padding: 2px 6px;
-  cursor: move;
+  cursor: default;
 }
 
 .inputField:active, .inputField:visited {
   border: none;
-  cursor: move;
   padding: 4px 8px;
 }
 
 .calc-operators {
-  cursor: move;
   background: #FFF;
+}
+
+.calc-operators:active {
+  cursor: move important!;
 }
 
 .calc-operators:hover {
@@ -132,6 +129,13 @@
 
 .operator:last-of-type {
   margin-right: 0;
+}
+
+.operator:hover {
+  border: 2px solid #5D5FEF;
+  border-radius: 6px;
+  background: #FFFFFF;
+  cursor: default;
 }
 
 .operator:disabled, .chiffre:disabled {
@@ -164,7 +168,7 @@
   opacity: 1;
 }
 
-.equality {
+.equality:active {
   cursor: move;
 }
 
