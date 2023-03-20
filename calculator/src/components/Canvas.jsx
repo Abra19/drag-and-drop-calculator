@@ -5,7 +5,7 @@ import elements from '../dragUtils/utils.js';
 import StartStateCanvas from './StartStateCanvas.jsx';
 
 const Canvas = () => {
-  const { dropped, currentParts } = useSelector((state) => state.dropParts);
+  const { startDrop, currentParts } = useSelector((state) => state.dropParts);
 
   const [, dropRef] = useDrop({
     accept: 'parts',
@@ -16,10 +16,13 @@ const Canvas = () => {
 
   return (
     <div ref={dropRef} className="d-flex flex-column">
-      {dropped
-        ? currentParts.map((id) => {
-          const item = elements.find((el) => el.id === id);
-          return item.component;
+      {startDrop
+        ? currentParts.map(({ id, dropped }) => {
+          if (dropped) {
+            const item = elements.find((el) => el.id === id);
+            return item.component;
+          }
+          return '';
         })
         : <StartStateCanvas /> }
     </div>

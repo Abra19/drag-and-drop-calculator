@@ -2,31 +2,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  dropped: false,
-  dragging: false,
-  currentParts: [],
+  startDrop: false,
+  currentParts: [
+    { id: 1, dropped: false },
+    { id: 2, dropped: false },
+
+  ],
 };
 
 const dropPartsSlice = createSlice({
-  name: 'partsStatus',
+  name: 'dropParts',
   initialState,
   reducers: {
+    changeStartStatus: (state, { payload }) => {
+      state.startDrop = payload;
+    },
     changeDropPartStatus: (state, { payload }) => {
-      state.dropped = payload;
-    },
-    changeDragPartStatus: (state, { payload }) => {
-      console.log(payload, 'drag');
-      state.dragging = payload;
-    },
-    addPart: (state, { payload }) => {
-      state.currentParts.push(payload);
+      state.currentParts.find((el) => el.id === payload).dropped = true;
     },
   },
 });
 
-export const {
-  changeDropPartStatus,
-  changeDragPartStatus,
-  addPart,
-} = dropPartsSlice.actions;
+export const { changeStartStatus, changeDropPartStatus } = dropPartsSlice.actions;
 export default dropPartsSlice.reducer;
