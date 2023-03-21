@@ -77,6 +77,14 @@
   text-align: center;
 }
 
+.resetButton {
+  border: none;
+  margin: 0;
+  margin-bottom: 11px;
+  padding: 0;
+  width: 100%;
+}
+
 /* constructor */
 .calc-elements {
   width: 240px;
@@ -92,6 +100,7 @@
   border: none;
   border-radius: 4px;
   outline: 0;
+  user-select: none;
 
   font-family: "Inter Extra Bold", sans-serif;
   font-size: 36px;
@@ -108,8 +117,9 @@
 }
 
 .inputField:active, .inputField:visited {
-  border: none;
   padding: 4px 8px;
+  border: none;
+  user-select: none;
 }
 
 .calc-operators {

@@ -5,10 +5,7 @@ const initialState = {
   startDrop: false,
   dragging: false,
   currentParts: [
-    { id: 1, dropped: false },
-    { id: 2, dropped: false },
-    { id: 3, dropped: false },
-    { id: 4, dropped: false },
+    { id: 1, dropped: false, deleted: false },
   ],
 };
 
@@ -22,15 +19,24 @@ const dropPartsSlice = createSlice({
     changeDraggingStatus: (state, { payload }) => {
       state.dragging = payload;
     },
-    changeDropPartStatus: (state, { payload }) => {
-      state.currentParts.find((el) => el.id === payload).dropped = true;
+    addParts: (state, { payload }) => {
+      if (payload === 1) {
+        state.currentParts[0].dropped = true;
+      } else {
+        state.currentParts.push({ id: payload, dropped: true, deleted: false });
+      }
+    },
+    deleteParts: (state, { payload }) => {
+      const item = state.currentParts.find((el) => el.id === payload);
+      item.deleted = true;
     },
   },
 });
 
 export const {
   changeStartStatus,
-  changeDropPartStatus,
   changeDraggingStatus,
+  addParts,
+  deleteParts,
 } = dropPartsSlice.actions;
 export default dropPartsSlice.reducer;

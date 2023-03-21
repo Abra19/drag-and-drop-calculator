@@ -1,12 +1,13 @@
 import { useDrag } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { changeStartStatus, changeDropPartStatus, changeDraggingStatus } from '../slices/dropPartsStatus.js';
+import { changeStartStatus, addParts, changeDraggingStatus } from '../slices/dropPartsStatus.js';
 
 const BaseComponent = ({ id, styledFunction, Component }) => {
   const { currentParts } = useSelector((state) => state.dropParts);
 
   const dispatch = useDispatch();
+  const found = currentParts.find((el) => el.id === id);
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: 'parts',
@@ -20,17 +21,18 @@ const BaseComponent = ({ id, styledFunction, Component }) => {
         isDragging: dragResult,
       });
     },
+    canDrag: () => (found ? !found.deleted : true),
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
         dispatch(changeStartStatus(dropResult));
-        dispatch(changeDropPartStatus(id));
+        dispatch(addParts(id));
         dispatch(changeDraggingStatus(false));
       }
     },
-  }));
+  }), [currentParts]);
 
-  const { dropped } = currentParts.find((el) => el.id === id);
+  const dropped = found ? found.dropped : false;
 
   return (
     <div
