@@ -50,6 +50,10 @@
   border-radius: 6px;
 }
 
+.mb-11 {
+  margin-bottom: 11px;
+}
+
 .mb-12 {
   margin-bottom: 12px;
 }
@@ -82,6 +86,7 @@
 
 .inputField {
   width: 100%;
+  box-sizing: border-box;
   background: #F3F4F6;
   padding: 4px 8px;
   border: none;
@@ -109,6 +114,7 @@
 
 .calc-operators {
   background: #FFF;
+  box-sizing: border-box;
 }
 
 .calc-operators:active {
@@ -166,6 +172,10 @@
   background: #5D5FEF;
   border-radius: 6px;
   opacity: 1;
+}
+
+.equalty {
+  box-sizing: border-box;
 }
 
 .equality:active {

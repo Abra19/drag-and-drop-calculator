@@ -1,11 +1,9 @@
 import { useDrag } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { changeStartStatus, changeDropPartStatus } from '../slices/dropPartsStatus.js';
-import { OperatorComponent } from '../styles/styled-components.js';
-import OperatorsBlock from './OperatorsBlock';
+import { changeStartStatus, changeDropPartStatus, changeDraggingStatus } from '../slices/dropPartsStatus.js';
 
-const Operators = ({ id }) => {
+const BaseComponent = ({ id, styledFunction, Component }) => {
   const { currentParts } = useSelector((state) => state.dropParts);
 
   const dispatch = useDispatch();
@@ -15,7 +13,9 @@ const Operators = ({ id }) => {
     item: { id },
     collect: (monitor) => {
       const dragResult = monitor.isDragging();
-
+      if (dragResult) {
+        dispatch(changeDraggingStatus(true));
+      }
       return ({
         isDragging: dragResult,
       });
@@ -23,8 +23,9 @@ const Operators = ({ id }) => {
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
-        dispatch(changeStartStatus(true));
+        dispatch(changeStartStatus(dropResult));
         dispatch(changeDropPartStatus(id));
+        dispatch(changeDraggingStatus(false));
       }
     },
   }));
@@ -34,12 +35,12 @@ const Operators = ({ id }) => {
   return (
     <div
       ref={dragRef}
-      style={OperatorComponent(dropped, isDragging)}
+      style={styledFunction(dropped, isDragging)}
       className="mb-12"
     >
-      <OperatorsBlock />
+      <Component />
     </div>
   );
 };
 
-export default Operators;
+export default BaseComponent;
