@@ -231,6 +231,8 @@
 
 .canvas {
   height: 448px;
+  position: relative;
+  z-index: 10;
 }
 
 .big-text {

@@ -1,20 +1,24 @@
 import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import Image from 'react-bootstrap/Image';
 
 import elements from '../dragUtils/utils.js';
 import StartStateCanvas from './StartStateCanvas.jsx';
+import image from '../assets/images/figures/line.svg';
 
 const Line = () => (
-  <div>
-    <hr
-      style={{
-        background: 'lime',
-        color: 'lime',
-        borderColor: 'lime',
-        height: '3px',
-      }}
-    />
-  </div>
+  <Image
+    width={250}
+    height={6}
+    alt="line"
+    src={image}
+    style={{
+      position: 'absolute',
+      top: '60px',
+      left: '0',
+      zIndex: '100',
+    }}
+  />
 );
 
 const Canvas = () => {
@@ -27,9 +31,11 @@ const Canvas = () => {
     }),
   });
 
+  console.log(currentParts);
+
   return (
     <div ref={dropRef} className="d-flex flex-column canvas">
-      {dragging ? <Line /> : ''}
+      {startDrop && dragging ? <Line /> : ''}
       {startDrop
         ? currentParts.map(({ id, dropped }) => {
           if (dropped) {
