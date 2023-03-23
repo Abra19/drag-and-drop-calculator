@@ -18,13 +18,6 @@ const Canvas = () => {
     }),
   });
 
-  const [, dropCanvasRef] = useDrop({
-    accept: 'canvas',
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-
   const handleDoubleClick = (e, id) => {
     e.preventDefault();
     if (e.detail === 2) {
@@ -40,24 +33,22 @@ const Canvas = () => {
 
   return (
     <div ref={dropRef} className="d-flex flex-column canvas">
-      <div ref={dropCanvasRef}>
-        {startDrop && dragging ? <Line /> : ''}
-        {startDrop
-          ? currentParts.map(({ id, dropped, deleted }) => {
-            if (dropped && !deleted) {
-              const item = elements.find((el) => el.id === id);
-              return (
-                <div className="mb-12" key={id}>
-                  <div role="button" onClick={(e) => handleDoubleClick(e, id)} onMouseDown={(e) => handleMouseDown(e)}>
-                    {item.component }
-                  </div>
+      {startDrop && dragging ? <Line /> : ''}
+      {startDrop
+        ? currentParts.map(({ id, dropped, deleted }) => {
+          if (dropped && !deleted) {
+            const item = elements.find((el) => el.id === id);
+            return (
+              <div className="mb-12" key={id}>
+                <div role="button" onClick={(e) => handleDoubleClick(e, id)} onMouseDown={(e) => handleMouseDown(e)}>
+                  {item.component }
                 </div>
-              );
-            }
-            return '';
-          })
-          : <StartStateCanvas /> }
-      </div>
+              </div>
+            );
+          }
+          return '';
+        })
+        : <StartStateCanvas /> }
     </div>
   );
 };
