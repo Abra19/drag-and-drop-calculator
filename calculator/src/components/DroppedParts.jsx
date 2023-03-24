@@ -1,20 +1,12 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import Input from './Input';
 import { changeDraggingStatus, swapParts } from '../slices/dropPartsStatus.js';
-import handleMouseDown from '../utils.js';
 
-export const DroppedInput = ({ onClick }) => (
-  <Input
-    name="droppedInput mb-12"
-    onClick={onClick}
-    onMouseDown={(e) => handleMouseDown(e)}
-  />
-);
+const DroppedComponent = ({ id, Component, onClick }) => {
+  const { calculatorStatus } = useSelector((state) => state.calculator);
 
-export const DroppedComponent = ({ id, Component, onClick }) => {
   const dispatch = useDispatch();
   const [{ isDragging }, dragR] = useDrag({
     type: 'item',
@@ -28,6 +20,7 @@ export const DroppedComponent = ({ id, Component, onClick }) => {
         isDragging: dragResult,
       };
     },
+    canDrag: () => !calculatorStatus,
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
@@ -84,7 +77,14 @@ export const DroppedComponent = ({ id, Component, onClick }) => {
       style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={onClick}
     >
-      <Component />
+      <Component
+        style={{
+          border: 'none',
+          cursor: calculatorStatus ? 'default' : 'move',
+        }}
+      />
     </div>
   );
 };
+
+export default DroppedComponent;

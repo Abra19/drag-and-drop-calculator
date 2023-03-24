@@ -84,7 +84,7 @@
   margin-top: 67px;
 }
 
-.inputField, .droppedInput {
+.inputField, .droppedInput, .inputFieldDropped {
   width: 100%;
   box-sizing: border-box;
   background: #F3F4F6;
@@ -96,7 +96,7 @@
 
   font-family: "Inter Extra Bold", sans-serif;
   font-size: 36px;
-  line-height: 44px;
+  line-height: 52px;
   color: #111827;
   text-align: right;
 }
@@ -112,6 +112,14 @@
   padding: 4px 8px;
   border: none;
   user-select: none;
+}
+
+.inputFieldDropped:hover {
+  border: none;
+}
+
+.droppedInput {
+  line-height: 50px;
 }
 
 .droppedInput:hover, .droppedInput:active {
@@ -195,6 +203,11 @@
   cursor: default;
 }
 
+.droppedElements:hover {
+  border: none;
+  padding: 4px;
+}
+ 
 /* canvas */
 .field {
   width: 243px;
@@ -206,9 +219,11 @@
   background-color: #F3F4F6;
 }
 
-.constructor, .constructor:hover {
+.constructor, .constructor:enabled, .constructor:hover, .constructor:active
+.runtime, .runtime:enabled, .runtime:hover {
   background-color: #FFF;
   border: 1px solid #E2E3E5;
+  cursor: default;
 }
 
 .runtime:disabled, .constructor:disabled {
@@ -224,7 +239,29 @@
   z-index: 10;
   width: 14px;
   height: 11px;
-  background-image: url("../assets/images/icons/Quotes.svg");
+  background-image: url("../assets/images/icons/Quotes_enabled.svg");
+}
+
+.constructor:disabled::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 15px;
+  z-index: 10;
+  width: 14px;
+  height: 11px;
+  background-image: url("../assets/images/icons/Quotes_disabled.svg");
+}
+
+.runtime:disabled::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 12px;
+  z-index: 10;
+  width: 20px;
+  height: 18px;
+  background-image: url("../assets/images/icons/Eye_disabled.svg");
 }
 
 .runtime::before {
@@ -235,10 +272,15 @@
   z-index: 10;
   width: 20px;
   height: 18px;
-  background-image: url("../assets/images/icons/Eye.svg");
+  background-image: url("../assets/images/icons/Eye_enabled.svg");
 }
 
 .canvas {
+  height: 448px;
+  box-sizing: border-box;
+}
+
+.canvasWrap {
   height: 448px;
   position: relative;
   z-index: 10;

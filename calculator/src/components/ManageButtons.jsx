@@ -1,12 +1,40 @@
-import {
-  Button,
-} from 'react-bootstrap';
+import { useState } from 'react';
+import { Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeCalculatorStatus } from '../slices/calculatorStatus';
 
-const ManageButtons = () => (
-  <div className="manage border-1 mb-28">
-    <Button className="runtime position-relative base-text text-black p-button" disabled>Runtime</Button>
-    <Button className="constructor position-relative base-text text-black border-1 p-button">Constructor</Button>
-  </div>
-);
+const ManageButtons = () => {
+  const [disabled, setDisabled] = useState(true);
+  const { calculatorStatus } = useSelector((state) => state.calculator);
+  console.log(calculatorStatus);
+  const dispatch = useDispatch();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setDisabled((prevState) => !prevState);
+    dispatch(changeCalculatorStatus(!calculatorStatus));
+  };
+
+  return (
+    <div className="manage border-1 mb-28">
+      <Button
+        variant="light"
+        className="runtime position-relative base-text text-black p-button"
+        disabled={disabled}
+        onClick={(e) => handleClick(e)}
+      >
+        Runtime
+      </Button>
+      <Button
+        className="constructor position-relative base-text text-black border-1 p-button"
+        variant="light"
+        disabled={!disabled}
+        onClick={(e) => handleClick(e)}
+      >
+        Constructor
+      </Button>
+    </div>
+  );
+};
 
 export default ManageButtons;

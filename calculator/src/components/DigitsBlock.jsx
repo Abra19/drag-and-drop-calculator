@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 
-const DigitsBlock = ({ onClick, onMouseDown }) => (
-  <div className="calc-operators d-grid border-4" role="button" onClick={onClick} onMouseDown={onMouseDown}>
+const DigitsBlock = ({ name, onClick, onMouseDown }) => (
+  <div className={`calc-operators d-grid border-4 ${name}`} role="button" onClick={onClick} onMouseDown={onMouseDown}>
     <Button className="chiffre base-text text-black" disabled>7</Button>
     <Button className="chiffre base-text text-black" disabled>8</Button>
     <Button className="chiffre base-text text-black" disabled>9</Button>

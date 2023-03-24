@@ -21,7 +21,7 @@ const BaseComponent = ({ id, styledFunction, Component }) => {
         isDragging: dragResult,
       });
     },
-    canDrag: () => (found ? !found.deleted : true),
+    canDrag: () => (found ? !found.dropped : true),
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
@@ -33,7 +33,9 @@ const BaseComponent = ({ id, styledFunction, Component }) => {
   }), [currentParts]);
 
   const dropped = found ? found.dropped : false;
-  const names = ['inputField', '', '', ''];
+  const nameInput = dropped ? 'inputFieldDropped' : 'inputField';
+  const nameOthers = dropped ? 'droppedElements' : '';
+  const names = [`${nameInput}`, `${nameOthers}`, `${nameOthers}`, `${nameOthers}`];
 
   return (
     <div

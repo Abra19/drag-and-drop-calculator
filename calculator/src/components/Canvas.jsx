@@ -3,21 +3,8 @@ import { useDrop } from 'react-dnd';
 
 import StartStateCanvas from './StartStateCanvas.jsx';
 import Line from './Line.jsx';
-import OperatorsBlock from './OperatorsBlock';
-import DigitsBlock from './DigitsBlock';
-import EqualButton from './EqualButton';
-import { DroppedInput, DroppedComponent } from './DroppedParts.jsx';
+import DroppedItem from './DroppedItem.jsx';
 import { deleteParts } from '../slices/dropPartsStatus.js';
-
-const Item = ({ id, onClick }) => {
-  const components = [OperatorsBlock, DigitsBlock, EqualButton];
-
-  return (
-    id === 1
-      ? <DroppedInput onClick={onClick} />
-      : <DroppedComponent id={id} Component={components[id - 2]} onClick={onClick} />
-  );
-};
 
 const Canvas = () => {
   const { startDrop, currentParts, dragging } = useSelector((state) => state.dropParts);
@@ -39,12 +26,12 @@ const Canvas = () => {
   };
 
   return (
-    <div ref={dropRef} className="d-flex flex-column canvas">
+    <div ref={dropRef} className="d-flex flex-column canvasWrap">
       {startDrop
         ? currentParts.map(({ id, dropped, deleted }) => {
           if (dropped && !deleted) {
             return (
-              <Item
+              <DroppedItem
                 id={id}
                 key={id}
                 onClick={(e) => handleDoubleClick(e, id)}

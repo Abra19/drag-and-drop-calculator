@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 import BaseComponent from './BaseComponent';
 import Input from './Input.jsx';
 import OperatorsBlock from './OperatorsBlock';
@@ -7,20 +9,24 @@ import DraggedComponentStyle from '../styles/styled-components';
 import handleMouseDown from '../utils';
 
 const Constructor = () => {
+  const { calculatorStatus } = useSelector((state) => state.calculator);
+
   const ids = [1, 2, 3, 4];
   const components = [Input, OperatorsBlock, DigitsBlock, EqualButton];
 
   return (
     <div className="calc-elements d-flex flex-column">
-      {ids.map((id) => (
-        <BaseComponent
-          id={id}
-          key={id}
-          styledFunction={DraggedComponentStyle}
-          Component={components[id - 1]}
-          onMouseDown={handleMouseDown}
-        />
-      ))}
+      {!calculatorStatus
+        ? ids.map((id) => (
+          <BaseComponent
+            id={id}
+            key={id}
+            styledFunction={DraggedComponentStyle}
+            Component={components[id - 1]}
+            onMouseDown={handleMouseDown}
+          />
+        ))
+        : ''}
     </div>
   );
 };
