@@ -16,7 +16,7 @@ export const DroppedInput = ({ onClick }) => (
 
 export const DroppedComponent = ({ id, Component, onClick }) => {
   const dispatch = useDispatch();
-  const [, dragR] = useDrag({
+  const [{ isDragging }, dragR] = useDrag({
     type: 'item',
     item: { id },
     collect: (monitor) => {
@@ -81,6 +81,7 @@ export const DroppedComponent = ({ id, Component, onClick }) => {
       ref={dragDrop}
       className="mb-12"
       role="button"
+      style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={onClick}
     >
       <Component />
