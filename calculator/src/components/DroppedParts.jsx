@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 
 import Input from './Input';
-import { swapParts } from '../slices/dropPartsStatus.js';
+import { changeDraggingStatus, swapParts } from '../slices/dropPartsStatus.js';
 import handleMouseDown from '../utils.js';
 
 export const DroppedInput = ({ onClick }) => (
@@ -19,9 +19,21 @@ export const DroppedComponent = ({ id, Component, onClick }) => {
   const [, dragR] = useDrag({
     type: 'item',
     item: { id },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    collect: (monitor) => {
+      const dragResult = monitor.isDragging();
+      if (dragResult) {
+        dispatch(changeDraggingStatus(true));
+      }
+      return {
+        isDragging: dragResult,
+      };
+    },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (item && dropResult) {
+        dispatch(changeDraggingStatus(false));
+      }
+    },
   });
 
   const ref = useRef(null);

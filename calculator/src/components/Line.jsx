@@ -11,7 +11,7 @@ const Line = () => (
     className="lineProps"
     style={{
       position: 'absolute',
-      top: '60px',
+      top: '58px',
       left: '-2px',
       zIndex: '100',
     }}
