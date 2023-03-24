@@ -22,7 +22,6 @@ export const DroppedComponent = ({ id, Component, onClick }) => {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-    canDrag: () => true,
   });
 
   const ref = useRef(null);
@@ -30,25 +29,36 @@ export const DroppedComponent = ({ id, Component, onClick }) => {
   const [, dropR] = useDrop({
     accept: 'item',
     hover: (item, monitor) => {
-      const dragIndex = item.index;
-      console.log(dragIndex);
-      const hoverIndex = id - 1;
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
-      // if dragging down, continue only when hover is smaller than middle Y
-      if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) {
+      if (!ref.current) {
         return;
       }
-      // if dragging up, continue only when hover is bigger than middle Y
-      if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) {
+      const dragId = item.id;
+      const hoverId = id;
+      if (dragId === hoverId) {
+        return;
+      }
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      // Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+      // Get pixels to the top
+      const hoverActualY = clientOffset.y - hoverBoundingRect.top;
+      // Only perform the move when the mouse has crossed half of item
+      // When dragging downwards, only move, when the cursor is below 50%
+      if (dragId < hoverId && hoverActualY < hoverMiddleY) {
+        return;
+      }
+      // When dragging upwards, only move when the cursor is above 50%
+      if (dragId > hoverId && hoverActualY > hoverMiddleY) {
         return;
       }
 
-      dispatch(swapParts({ dragIndex, hoverIndex }));
+      dispatch(swapParts({ dragId, hoverId }));
 
       // eslint-disable-next-line no-param-reassign
-      item.index = hoverIndex;
+      item.id = hoverId;
     },
   });
 

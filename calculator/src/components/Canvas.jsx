@@ -40,7 +40,6 @@ const Canvas = () => {
 
   return (
     <div ref={dropRef} className="d-flex flex-column canvas">
-      {startDrop && dragging ? <Line /> : ''}
       {startDrop
         ? currentParts.map(({ id, dropped, deleted }) => {
           if (dropped && !deleted) {
@@ -55,6 +54,7 @@ const Canvas = () => {
           return '';
         })
         : <StartStateCanvas /> }
+      { startDrop && dragging ? <Line /> : ''}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import _ from 'lodash';
 
 const initialState = {
   startDrop: false,
@@ -31,12 +32,14 @@ const dropPartsSlice = createSlice({
       item.deleted = true;
     },
     swapParts: (state, { payload }) => {
+      const dragEl = state.currentParts.find((el) => el.id === payload.dragId);
+      const hoverEl = state.currentParts.find((el) => el.id === payload.hoverId);
       state.currentParts = state.currentParts.map((el) => {
-        if (el === payload.dragIndex) {
-          return payload.hoverIndex;
+        if (_.isEqual(el, dragEl)) {
+          return hoverEl;
         }
-        if (el === payload.hoverIndex) {
-          return payload.dragIndex;
+        if (_.isEqual(el, hoverEl)) {
+          return dragEl;
         }
         return el;
       });

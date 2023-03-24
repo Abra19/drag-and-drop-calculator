@@ -8,10 +8,11 @@ const Line = () => (
     height={6}
     alt="line"
     src={image}
+    className="lineProps"
     style={{
       position: 'absolute',
       top: '60px',
-      left: '0',
+      left: '-2px',
       zIndex: '100',
     }}
   />
