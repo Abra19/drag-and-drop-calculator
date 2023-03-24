@@ -33,6 +33,7 @@ const BaseComponent = ({ id, styledFunction, Component }) => {
   }), [currentParts]);
 
   const dropped = found ? found.dropped : false;
+  const names = ['inputField', '', '', ''];
 
   return (
     <div
@@ -40,7 +41,7 @@ const BaseComponent = ({ id, styledFunction, Component }) => {
       style={styledFunction(dropped, isDragging)}
       className="mb-12"
     >
-      <Component />
+      <Component name={names[id - 1]} />
     </div>
   );
 };

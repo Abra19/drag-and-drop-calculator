@@ -77,14 +77,6 @@
   text-align: center;
 }
 
-.resetButton {
-  border: none;
-  margin: 0;
-  margin-bottom: 11px;
-  padding: 0;
-  width: 100%;
-}
-
 /* constructor */
 .calc-elements {
   width: 240px;
@@ -92,7 +84,7 @@
   margin-top: 67px;
 }
 
-.inputField {
+.inputField, .droppedInput {
   width: 100%;
   box-sizing: border-box;
   background: #F3F4F6;
@@ -116,10 +108,15 @@
   cursor: default;
 }
 
-.inputField:active, .inputField:visited {
+.inputField:active {
   padding: 4px 8px;
   border: none;
   user-select: none;
+}
+
+.droppedInput:hover, .droppedInput:active {
+  cursor: no-drop !important;
+  border: none
 }
 
 .calc-operators {
@@ -128,13 +125,14 @@
 }
 
 .calc-operators:active {
-  cursor: move important!;
+  cursor: move !important;
 }
 
 .calc-operators:hover {
   border: 2px solid #42AAFF;
   border-radius: 6px;
   padding: 2px;
+  cursor: default;
 }
 
 .operator {
@@ -151,7 +149,6 @@
   border: 2px solid #5D5FEF;
   border-radius: 6px;
   background: #FFFFFF;
-  cursor: default;
 }
 
 .operator:disabled, .chiffre:disabled {
@@ -189,12 +186,13 @@
 }
 
 .equality:active {
-  cursor: move;
+  cursor: move !important;
 }
 
 .equality:hover {
   border: 2px solid #8B00FF;
   border-radius: 8px;
+  cursor: default;
 }
 
 /* canvas */
@@ -208,8 +206,9 @@
   background-color: #F3F4F6;
 }
 
-.constructor {
+.constructor, .constructor:hover {
   background-color: #FFF;
+  border: 1px solid #E2E3E5;
 }
 
 .runtime:disabled, .constructor:disabled {

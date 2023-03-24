@@ -30,6 +30,17 @@ const dropPartsSlice = createSlice({
       const item = state.currentParts.find((el) => el.id === payload);
       item.deleted = true;
     },
+    swapParts: (state, { payload }) => {
+      state.currentParts = state.currentParts.map((el) => {
+        if (el === payload.dragIndex) {
+          return payload.hoverIndex;
+        }
+        if (el === payload.hoverIndex) {
+          return payload.dragIndex;
+        }
+        return el;
+      });
+    },
   },
 });
 
@@ -38,5 +49,6 @@ export const {
   changeDraggingStatus,
   addParts,
   deleteParts,
+  swapParts,
 } = dropPartsSlice.actions;
 export default dropPartsSlice.reducer;

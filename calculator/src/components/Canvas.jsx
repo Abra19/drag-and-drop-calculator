@@ -1,10 +1,23 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 
-import elements from '../dragUtils/utils.js';
 import StartStateCanvas from './StartStateCanvas.jsx';
 import Line from './Line.jsx';
+import OperatorsBlock from './OperatorsBlock';
+import DigitsBlock from './DigitsBlock';
+import EqualButton from './EqualButton';
+import { DroppedInput, DroppedComponent } from './DroppedParts.jsx';
 import { deleteParts } from '../slices/dropPartsStatus.js';
+
+const Item = ({ id, onClick }) => {
+  const components = [OperatorsBlock, DigitsBlock, EqualButton];
+
+  return (
+    id === 1
+      ? <DroppedInput onClick={onClick} />
+      : <DroppedComponent id={id} Component={components[id - 2]} onClick={onClick} />
+  );
+};
 
 const Canvas = () => {
   const { startDrop, currentParts, dragging } = useSelector((state) => state.dropParts);
@@ -18,17 +31,11 @@ const Canvas = () => {
     }),
   });
 
-  const handleDoubleClick = (e, id) => {
+  const handleDoubleClick = (e, identificator) => {
     e.preventDefault();
     if (e.detail === 2) {
-      dispatch(deleteParts(id));
+      dispatch(deleteParts(identificator));
     }
-  };
-
-  const handleMouseDown = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
   };
 
   return (
@@ -37,13 +44,12 @@ const Canvas = () => {
       {startDrop
         ? currentParts.map(({ id, dropped, deleted }) => {
           if (dropped && !deleted) {
-            const item = elements.find((el) => el.id === id);
             return (
-              <div className="mb-12" key={id}>
-                <div role="button" onClick={(e) => handleDoubleClick(e, id)} onMouseDown={(e) => handleMouseDown(e)}>
-                  {item.component }
-                </div>
-              </div>
+              <Item
+                id={id}
+                key={id}
+                onClick={(e) => handleDoubleClick(e, id)}
+              />
             );
           }
           return '';

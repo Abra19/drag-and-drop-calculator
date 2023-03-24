@@ -1,8 +1,10 @@
-const Input = () => (
+const Input = ({ name, onClick, onMouseDown }) => (
   <input
     type="text"
     value="0"
-    className="inputField"
+    className={name}
+    onClick={onClick}
+    onMouseDown={onMouseDown}
     readOnly={Boolean(true)}
   />
 );
