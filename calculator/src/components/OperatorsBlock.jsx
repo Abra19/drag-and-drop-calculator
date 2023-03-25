@@ -1,15 +1,31 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { pushToCurrentList, isOperator } from '../slices/calculatorStatus';
 
 const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
+  const dispatch = useDispatch();
   const { disabledButtons } = useSelector((state) => state.calculator);
+  const operators = ['/', 'x', '-', '+'];
+
+  const handleClick = (e) => {
+    dispatch(pushToCurrentList(e.target.value));
+    dispatch(isOperator(true));
+  };
 
   return (
     <div className={`calc-operators d-flex border-4 ${name}`} role="button" onClick={onClick} onMouseDown={onMouseDown}>
-      <Button className="operator base-text" variant="light" disabled={disabledButtons}>/</Button>
-      <Button className="operator base-text" variant="light" disabled={disabledButtons}>x</Button>
-      <Button className="operator base-text" variant="light" disabled={disabledButtons}>-</Button>
-      <Button className="operator base-text" variant="light" disabled={disabledButtons}>+</Button>
+      {operators.map((el) => (
+        <Button
+          key={el}
+          value={el}
+          className="operator base-text"
+          variant="light"
+          disabled={disabledButtons}
+          onClick={(e) => handleClick(e)}
+        >
+          {el}
+        </Button>
+      ))}
     </div>
   );
 };
