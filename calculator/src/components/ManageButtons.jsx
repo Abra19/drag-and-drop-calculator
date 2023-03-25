@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeCalculatorStatus } from '../slices/calculatorStatus';
+import { changeCalculatorStatus, changeDisabledButtons } from '../slices/calculatorStatus';
 
 const ManageButtons = () => {
   const [disabled, setDisabled] = useState(true);
   const { calculatorStatus } = useSelector((state) => state.calculator);
-  console.log(calculatorStatus);
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
     e.preventDefault();
     setDisabled((prevState) => !prevState);
     dispatch(changeCalculatorStatus(!calculatorStatus));
+    dispatch(changeDisabledButtons(calculatorStatus));
   };
 
   return (

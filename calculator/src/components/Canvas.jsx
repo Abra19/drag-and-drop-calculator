@@ -8,6 +8,7 @@ import { deleteParts } from '../slices/dropPartsStatus.js';
 
 const Canvas = () => {
   const { startDrop, currentParts, dragging } = useSelector((state) => state.dropParts);
+  const { calculatorStatus } = useSelector((state) => state.calculator);
 
   const dispatch = useDispatch();
 
@@ -20,7 +21,8 @@ const Canvas = () => {
 
   const handleDoubleClick = (e, identificator) => {
     e.preventDefault();
-    if (e.detail === 2) {
+
+    if (e.detail === 2 && !calculatorStatus) {
       dispatch(deleteParts(identificator));
     }
   };
