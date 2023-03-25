@@ -4,7 +4,7 @@ export const calcResult = (arr) => {
     if (item && i === 0) {
       return item;
     }
-    if (!arr[i + 1]) {
+    if (!arr[i + 1] || (!item && !Number(arr[i + 1]))) {
       return acc;
     }
     if (el === '+') {
