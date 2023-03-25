@@ -2,7 +2,7 @@ import OperatorsBlock from './OperatorsBlock';
 import DigitsBlock from './DigitsBlock';
 import EqualButton from './EqualButton';
 import DroppedInput from './DroppedInput';
-import DroppedComponent from './DroppedParts.jsx';
+import DroppedComponent from './DroppedComponent.jsx';
 
 const DroppedItem = ({ id, onClick }) => {
   const components = [OperatorsBlock, DigitsBlock, EqualButton];

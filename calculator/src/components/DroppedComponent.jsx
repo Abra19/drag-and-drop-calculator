@@ -68,6 +68,7 @@ const DroppedComponent = ({ id, Component, onClick }) => {
   });
 
   const dragDrop = dragR(dropR(ref));
+  const name = calculatorStatus ? 'droppedElements' : '';
 
   return (
     <div
@@ -78,6 +79,7 @@ const DroppedComponent = ({ id, Component, onClick }) => {
       onClick={onClick}
     >
       <Component
+        name={name}
         style={{
           border: 'none',
           cursor: calculatorStatus ? 'default' : 'move',
