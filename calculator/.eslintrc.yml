@@ -32,7 +32,7 @@ rules:
   functional/immutable-data: 0
   functional/functional-parameters: 0
   functional/no-try-statement: 0
-  functional/no-throw-statement: 0
+  functional/no-throw-statements: 0
   jsx-a11y/click-events-have-key-events: 0
   jsx-a11y/interactive-supports-focus: 0
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]

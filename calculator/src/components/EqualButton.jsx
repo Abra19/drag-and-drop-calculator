@@ -1,6 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { currentListPop, changeInputValue, changeCurrentResult } from '../slices/calculatorStatus';
+import {
+  currentListPop,
+  changeInputValue,
+  changeCurrentResult,
+  isCalculated,
+} from '../slices/calculatorStatus';
 import { calcResult } from '../utils';
 
 const EqualButton = ({ name, onClick, onMouseDown }) => {
@@ -35,6 +40,7 @@ const EqualButton = ({ name, onClick, onMouseDown }) => {
     const result = calcResult(addOldResult);
     dispatch(changeCurrentResult(result));
     dispatch(changeInputValue(result));
+    dispatch(isCalculated(true));
   };
 
   return (

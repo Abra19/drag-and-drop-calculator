@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { pushToCurrentList, changeInputValue } from '../slices/calculatorStatus';
+import { pushToCurrentList, changeInputValue, isCalculated } from '../slices/calculatorStatus';
 
 const DigitsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
@@ -11,6 +11,7 @@ const DigitsBlock = ({ name, onClick, onMouseDown }) => {
   const handleClick = (e) => {
     dispatch(pushToCurrentList(e.target.value));
     dispatch(changeInputValue(e.target.value));
+    dispatch(isCalculated(false));
   };
 
   return (
