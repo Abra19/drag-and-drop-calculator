@@ -1,17 +1,27 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { pushToCurrentList, changeInputValue, isCalculated } from '../slices/calculatorStatus';
+import {
+  pushToCurrentList,
+  changeInputValue,
+  isCalculated,
+  isOperator,
+  changeCurrentResult,
+} from '../slices/calculatorStatus';
 
 const DigitsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
 
-  const { disabledButtons } = useSelector((state) => state.calculator);
+  const { disabledButtons, currentList } = useSelector((state) => state.calculator);
   const values = [7, 8, 9, 4, 5, 6, 1, 2, 3];
 
   const handleClick = (e) => {
     dispatch(pushToCurrentList(e.target.value));
     dispatch(changeInputValue(e.target.value));
+    dispatch(isOperator(false));
     dispatch(isCalculated(false));
+    if (currentList.length === 0) {
+      dispatch(changeCurrentResult('0'));
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { pushToCurrentList, isOperator } from '../slices/calculatorStatus';
+import { pushToCurrentList, isOperator, isCalculated } from '../slices/calculatorStatus';
 
 const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
@@ -10,6 +10,7 @@ const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
   const handleClick = (e) => {
     dispatch(pushToCurrentList(e.target.value));
     dispatch(isOperator(true));
+    dispatch(isCalculated(false));
   };
 
   return (

@@ -1,4 +1,4 @@
-const calc = (operator, first, second) => {
+export const calc = (operator, first, second) => {
   const lenA = Math.trunc(first + second).toString().length;
   const lenS = Math.trunc(first - second).toString().length;
   const lenM = Math.trunc(first * second).toString().length;

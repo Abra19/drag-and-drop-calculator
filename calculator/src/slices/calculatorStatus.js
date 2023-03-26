@@ -1,16 +1,17 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 import { cleanArr } from '../utils';
 
 const initialState = {
   calculatorStatus: false,
   disabledButtons: true,
-  startValue: '0',
+  inputValue: '0',
   isOperator: false,
   currentList: [],
   currentResult: '0',
   calculated: false,
+  lastValue: '0',
 };
 
 const calculatorStatusSlice = createSlice({
@@ -25,7 +26,6 @@ const calculatorStatusSlice = createSlice({
     },
     pushToCurrentList: (state, { payload }) => {
       state.currentList = cleanArr(state.currentList, payload);
-      console.log(state.currentList);
     },
     currentListPop: (state) => {
       state.currentList.pop();
@@ -34,23 +34,26 @@ const calculatorStatusSlice = createSlice({
       state.isOperator = payload;
     },
     changeInputValue: (state, { payload }) => {
-      const condition = payload === '.' && state.startValue.includes('.');
-      const startValue = condition ? state.startValue : `${state.startValue}${payload}`;
-      state.startValue = (state.isOperator) ? payload : startValue;
-      if (payload === '.' && state.startValue === '.') {
-        state.startValue = '0.';
+      console.log(current(state));
+      const condition = payload === '.' && state.inputValue.includes('.');
+      const inputValue = condition ? state.inputValue : `${state.inputValue}${payload}`;
+      state.inputValue = (state.isOperator) ? payload : inputValue;
+      if (payload === '.' && state.inputValue === '.') {
+        state.inputValue = '0.';
       }
       if (state.calculated) {
-        state.startValue = payload;
+        state.inputValue = payload;
       }
       state.isOperator = false;
     },
     changeCurrentResult: (state, { payload }) => {
       state.currentResult = payload;
+      // state.lastValue = state.inputValue; ///
+      // state.inputValue = state.currentResult; ///
       state.isOperator = true;
     },
     initInputValue: (state) => {
-      state.startValue = '0';
+      state.inputValue = '0';
     },
     isCalculated: (state, { payload }) => {
       state.calculated = payload;

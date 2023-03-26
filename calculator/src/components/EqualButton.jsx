@@ -6,38 +6,51 @@ import {
   changeCurrentResult,
   isCalculated,
 } from '../slices/calculatorStatus';
-import { calcResult } from '../utils';
+import { calcResult, calc } from '../utils';
 
 const EqualButton = ({ name, onClick, onMouseDown }) => {
-  const { disabledButtons, currentList, currentResult } = useSelector((state) => state.calculator);
+  const {
+    disabledButtons,
+    currentList,
+    currentResult,
+    lastValue,
+    calculated,
+  } = useSelector((state) => state.calculator);
   const dispatch = useDispatch();
 
   const operators = ['/', 'x', '-', '+'];
   const separator = ',';
 
   const handleClick = () => {
-    const manageStack = currentList.reduce((acc, el, i) => {
-      dispatch(currentListPop());
-      if (i === 0) {
-        return [...acc, el];
-      }
-      const next = currentList[i + 1];
-      if (operators.includes(el)) {
-        return operators.includes(next) ? acc : [...acc, el];
-      }
-      if (next === separator && el === separator) {
-        return acc;
-      }
-      const item = el === separator ? '.' : el;
-      const len = acc.length;
-      return operators.includes(acc[len - 1])
-        ? [...acc, item]
-        : [...acc.slice(0, len - 1), `${acc[len - 1]}${item}`];
-    }, []);
+    // eslint-disable-next-line functional/no-let
+    let result = 0;
+    if (currentList.length === 0 && calculated) {
+      result = calc('+', Number(lastValue), Number(currentResult));
+    } else {
+      const manageStack = currentList.reduce((acc, el, i) => {
+        dispatch(currentListPop());
+        if (i === 0) {
+          return [...acc, el];
+        }
+        const next = currentList[i + 1];
+        if (operators.includes(el)) {
+          return operators.includes(next) ? acc : [...acc, el];
+        }
+        if (next === separator && el === separator) {
+          return acc;
+        }
+        const item = el === separator ? '.' : el;
+        const len = acc.length;
+        return operators.includes(acc[len - 1])
+          ? [...acc, item]
+          : [...acc.slice(0, len - 1), `${acc[len - 1]}${item}`];
+      }, []);
 
-    const addOldResult = currentResult === '0' ? manageStack : [currentResult].concat(manageStack);
+      const addOldResult = (currentResult === '0' || (currentList.length === 0 && !calculated))
+        ? manageStack : [currentResult].concat(manageStack);
 
-    const result = calcResult(addOldResult);
+      result = calcResult(addOldResult);
+    }
     dispatch(changeCurrentResult(result));
     dispatch(changeInputValue(result));
     dispatch(isCalculated(true));
