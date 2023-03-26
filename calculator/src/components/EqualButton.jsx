@@ -5,6 +5,8 @@ import {
   changeInputValue,
   changeCurrentResult,
   isCalculated,
+  changeLastValue,
+  isOperator,
 } from '../slices/calculatorStatus';
 import { calcResult, calc } from '../utils';
 
@@ -25,8 +27,13 @@ const EqualButton = ({ name, onClick, onMouseDown }) => {
     // eslint-disable-next-line functional/no-let
     let result = 0;
     if (currentList.length === 0 && calculated) {
+      console.log('!!!!!'); /// сюда мы не попадаем - использовать для особых операций
       result = calc('+', Number(lastValue), Number(currentResult));
     } else {
+      const last = currentList[currentList.length - 1];
+      if (!operators.includes(last)) {
+        dispatch(changeLastValue(last));
+      }
       const manageStack = currentList.reduce((acc, el, i) => {
         dispatch(currentListPop());
         if (i === 0) {
@@ -52,6 +59,7 @@ const EqualButton = ({ name, onClick, onMouseDown }) => {
       result = calcResult(addOldResult);
     }
     dispatch(changeCurrentResult(result));
+    dispatch(isOperator(true));
     dispatch(changeInputValue(result));
     dispatch(isCalculated(true));
   };

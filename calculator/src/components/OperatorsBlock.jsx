@@ -1,16 +1,36 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { pushToCurrentList, isOperator, isCalculated } from '../slices/calculatorStatus';
+import {
+  pushToCurrentList,
+  isOperator,
+  isCalculated,
+  // changeInputValue,
+  makeUnarNegative,
+} from '../slices/calculatorStatus';
 
 const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
-  const { disabledButtons } = useSelector((state) => state.calculator);
+  const {
+    disabledButtons,
+    currentList,
+    unarNegative,
+    // inputValue,
+  } = useSelector((state) => state.calculator);
   const operators = ['/', 'x', '-', '+'];
 
   const handleClick = (e) => {
-    dispatch(pushToCurrentList(e.target.value));
+    const { value } = e.target;
+    if (currentList.length === 0 && value === '-') {
+      dispatch(makeUnarNegative(value));
+    }
+    dispatch(pushToCurrentList(value));
     dispatch(isOperator(true));
     dispatch(isCalculated(false));
+    if (unarNegative.length > 0) {
+      // dispatch(changeInputValue(`${unarNegative}${inputValue}`));
+      dispatch(makeUnarNegative(''));
+    }
+    console.log(unarNegative, 'unar');
   };
 
   return (

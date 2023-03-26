@@ -12,6 +12,7 @@ const initialState = {
   currentResult: '0',
   calculated: false,
   lastValue: '0',
+  unarNegative: '',
 };
 
 const calculatorStatusSlice = createSlice({
@@ -37,7 +38,7 @@ const calculatorStatusSlice = createSlice({
       console.log(current(state));
       const condition = payload === '.' && state.inputValue.includes('.');
       const inputValue = condition ? state.inputValue : `${state.inputValue}${payload}`;
-      state.inputValue = (state.isOperator) ? payload : inputValue;
+      state.inputValue = (state.isOperator || state.inputValue === '0') ? payload : inputValue;
       if (payload === '.' && state.inputValue === '.') {
         state.inputValue = '0.';
       }
@@ -48,15 +49,24 @@ const calculatorStatusSlice = createSlice({
     },
     changeCurrentResult: (state, { payload }) => {
       state.currentResult = payload;
-      // state.lastValue = state.inputValue; ///
-      // state.inputValue = state.currentResult; ///
-      state.isOperator = true;
-    },
-    initInputValue: (state) => {
-      state.inputValue = '0';
     },
     isCalculated: (state, { payload }) => {
       state.calculated = payload;
+    },
+    changeLastValue: (state, { payload }) => {
+      state.lastValue = payload;
+    },
+    initInputValue: (state) => {
+      state.inputValue = '0';
+      state.isOperator = false;
+      state.currentList = [];
+      state.currentResult = '0';
+      state.calculated = false;
+      state.lastValue = '0';
+      state.unarNegative = '';
+    },
+    makeUnarNegative: (state, { payload }) => {
+      state.unarNegative = payload;
     },
   },
 });
@@ -69,7 +79,9 @@ export const {
   isOperator,
   changeInputValue,
   changeCurrentResult,
-  initInputValue,
   isCalculated,
+  changeLastValue,
+  initInputValue,
+  makeUnarNegative,
 } = calculatorStatusSlice.actions;
 export default calculatorStatusSlice.reducer;

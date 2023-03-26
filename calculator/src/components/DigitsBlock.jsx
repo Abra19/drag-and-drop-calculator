@@ -4,8 +4,8 @@ import {
   pushToCurrentList,
   changeInputValue,
   isCalculated,
-  isOperator,
   changeCurrentResult,
+  isOperator,
 } from '../slices/calculatorStatus';
 
 const DigitsBlock = ({ name, onClick, onMouseDown }) => {
@@ -15,8 +15,9 @@ const DigitsBlock = ({ name, onClick, onMouseDown }) => {
   const values = [7, 8, 9, 4, 5, 6, 1, 2, 3];
 
   const handleClick = (e) => {
-    dispatch(pushToCurrentList(e.target.value));
-    dispatch(changeInputValue(e.target.value));
+    const { value } = e.target;
+    dispatch(pushToCurrentList(value));
+    dispatch(changeInputValue(value));
     dispatch(isOperator(false));
     dispatch(isCalculated(false));
     if (currentList.length === 0) {
