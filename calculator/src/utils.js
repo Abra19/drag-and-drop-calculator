@@ -1,22 +1,23 @@
 export const calcResult = (arr) => {
   const result = arr.reduce((acc, el, i) => {
-    const item = Number(el);
-    if (item && i === 0) {
-      return item;
-    }
-    if (!arr[i + 1] || (!item && !Number(arr[i + 1]))) {
-      return acc;
+    const currentN = Number(el);
+    const nextN = Number(arr[i + 1]);
+    if (currentN && i === 0) {
+      return currentN;
     }
     if (el === '+') {
-      return Number((acc + Number(arr[i + 1])).toFixed(15));
+      return Number((acc + nextN).toFixed(15));
     }
     if (el === '-') {
-      return Number((acc - Number(arr[i + 1])).toFixed(15));
+      return Number((acc - nextN).toFixed(15));
     }
     if (el === 'x') {
-      return Number((acc * Number(arr[i + 1])).toFixed(15));
+      return Number((acc * nextN).toFixed(15));
     }
-    return Number((acc / Number(arr[i + 1])).toFixed(15));
+    if (el === '/') {
+      return Number((acc / nextN).toFixed(15));
+    }
+    return acc;
   }, 0);
 
   return Number.isFinite(result) ? result.toString() : 'Не определено';
