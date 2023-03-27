@@ -4,7 +4,7 @@ import {
   pushToCurrentList,
   isOperator,
   isCalculated,
-  // changeInputValue,
+  changeInputValue,
   makeUnarNegative,
 } from '../slices/calculatorStatus';
 
@@ -14,7 +14,7 @@ const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
     disabledButtons,
     currentList,
     unarNegative,
-    // inputValue,
+    inputValue,
   } = useSelector((state) => state.calculator);
   const operators = ['/', 'x', '-', '+'];
 
@@ -23,14 +23,14 @@ const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
     if (currentList.length === 0 && value === '-') {
       dispatch(makeUnarNegative(value));
     }
+    if (unarNegative.length > 0) {
+      dispatch(isOperator(true));
+      dispatch(changeInputValue(`${unarNegative}${inputValue}`));
+      dispatch(makeUnarNegative(''));
+    }
     dispatch(pushToCurrentList(value));
     dispatch(isOperator(true));
     dispatch(isCalculated(false));
-    if (unarNegative.length > 0) {
-      // dispatch(changeInputValue(`${unarNegative}${inputValue}`));
-      dispatch(makeUnarNegative(''));
-    }
-    console.log(unarNegative, 'unar');
   };
 
   return (

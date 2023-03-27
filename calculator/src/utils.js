@@ -5,13 +5,13 @@ export const calc = (operator, first, second) => {
   const lenD = Math.trunc(first / second).toString().length;
   switch (operator) {
     case '+':
-      return Number((first + second).toFixed(16 - lenA));
+      return Number((first + second).toFixed(10 - lenA));
     case '-':
-      return Number((first - second).toFixed(16 - lenS));
+      return Number((first - second).toFixed(10 - lenS));
     case 'x':
-      return Number((first * second).toFixed(16 - lenM));
+      return Number((first * second).toFixed(10 - lenM));
     case '/':
-      return Number((first / second).toFixed(16 - lenD));
+      return Number((first / second).toFixed(10 - lenD));
     default:
       throw new Error('operation is not processed');
   }
