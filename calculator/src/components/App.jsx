@@ -1,8 +1,8 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import Constructor from './Constructor';
-import Runtime from './Runtime';
+import Constructor from './Constructor.jsx';
+import Runtime from './Runtime.jsx';
 
 const App = () => (
   <DndProvider backend={HTML5Backend}>

@@ -2,26 +2,38 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import {
   pushToCurrentList,
+  notFirstDigit,
   changeInputValue,
+  changeCalcStartStatus,
   isCalculated,
-  changeCurrentResult,
-  isOperator,
-} from '../slices/calculatorStatus';
+} from '../slices/calculatorStatus.js';
 
 const DigitsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
 
-  const { disabledButtons, currentList } = useSelector((state) => state.calculator);
-  const values = [7, 8, 9, 4, 5, 6, 1, 2, 3];
+  const {
+    disabledButtons,
+    unarNegative,
+    isFirstDigit,
+  } = useSelector((state) => state.calculator);
+  const values = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ','];
+  const styles = Array(9).fill('chiffre base-text').concat(['chiffre g-big base-text'], ['chiffre base-text']);
 
   const handleClick = (e) => {
     const { value } = e.target;
-    dispatch(pushToCurrentList(value));
-    dispatch(changeInputValue(value));
-    dispatch(isOperator(false));
-    dispatch(isCalculated(false));
-    if (currentList.length === 0) {
-      dispatch(changeCurrentResult('0'));
+    if (isFirstDigit) {
+      dispatch(changeCalcStartStatus());
+    }
+    if (unarNegative === '-' && isFirstDigit) {
+      const item = `${unarNegative}${value}`;
+      dispatch(changeInputValue(item));
+      dispatch(pushToCurrentList(item));
+      dispatch(notFirstDigit());
+    } else {
+      dispatch(notFirstDigit());
+      dispatch(isCalculated(false));
+      dispatch(changeInputValue(value));
+      dispatch(pushToCurrentList(value));
     }
   };
 
@@ -32,11 +44,11 @@ const DigitsBlock = ({ name, onClick, onMouseDown }) => {
       onClick={onClick}
       onMouseDown={onMouseDown}
     >
-      {values.map((el) => (
+      {values.map((el, i) => (
         <Button
           key={el}
           value={el}
-          className="chiffre base-text"
+          className={styles[i]}
           variant="light"
           disabled={disabledButtons}
           onClick={(e) => handleClick(e)}
@@ -44,24 +56,6 @@ const DigitsBlock = ({ name, onClick, onMouseDown }) => {
           {el}
         </Button>
       ))}
-      <Button
-        value="0"
-        className="chiffre g-big base-text"
-        variant="light"
-        disabled={disabledButtons}
-        onClick={(e) => handleClick(e)}
-      >
-        0
-      </Button>
-      <Button
-        value="."
-        className="chiffre base-text"
-        variant="light"
-        disabled={disabledButtons}
-        onClick={(e) => handleClick(e)}
-      >
-        ,
-      </Button>
     </div>
   );
 };

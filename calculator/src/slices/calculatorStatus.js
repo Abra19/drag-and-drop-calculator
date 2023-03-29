@@ -1,18 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, current } from '@reduxjs/toolkit';
-
-import { cleanArr } from '../utils';
+import { operators } from '../utils/calcResult';
 
 const initialState = {
   calculatorStatus: false,
   disabledButtons: true,
   inputValue: '0',
-  isOperator: false,
+  currentResult: '',
   currentList: [],
-  currentResult: '0',
-  calculated: false,
-  lastValue: '0',
+  calcStart: false,
+  isFirstOperator: true,
+  isFirstDigit: true,
+  lastValue: '',
   unarNegative: '',
+  calculated: false,
 };
 
 const calculatorStatusSlice = createSlice({
@@ -25,48 +26,57 @@ const calculatorStatusSlice = createSlice({
     changeDisabledButtons: (state, { payload }) => {
       state.disabledButtons = payload;
     },
+    initInputValue: (state) => {
+      state.inputValue = '0';
+      state.currentList = [];
+      state.currentResult = '';
+      state.calculated = false;
+      state.lastValue = '';
+      state.unarNegative = '';
+      state.isFirstOperator = true;
+      state.isFirstDigit = true;
+    },
+    changeCalcStartStatus: (state) => {
+      state.calcStart = true;
+    },
     pushToCurrentList: (state, { payload }) => {
-      state.currentList = cleanArr(state.currentList, payload);
+      state.currentList.push(payload);
+      console.log(current(state));
     },
-    currentListPop: (state) => {
-      state.currentList.pop();
+    currentListSlice: (state, { payload }) => {
+      state.currentList = state.currentList.slice(0, payload);
     },
-    isOperator: (state, { payload }) => {
-      state.isOperator = payload;
+    currentListInit: (state) => {
+      state.currentList = [];
     },
     changeInputValue: (state, { payload }) => {
-      console.log(current(state));
-      const condition = payload === '.' && state.inputValue.includes('.');
-      const inputValue = condition ? state.inputValue : `${state.inputValue}${payload}`;
-      state.inputValue = (state.isOperator || state.inputValue === '0') ? payload : inputValue;
-      if (payload === '.' && state.inputValue === '.') {
-        state.inputValue = '0.';
+      const el = state.currentList[state.currentList.length - 1];
+      state.inputValue = (state.inputValue === '0' || operators.includes(el)) ? payload : `${state.inputValue}${payload}`;
+      if (payload === ',' && state.inputValue === ',') {
+        state.inputValue = '0,';
       }
       if (state.calculated) {
         state.inputValue = payload;
       }
-      state.isOperator = false;
     },
     changeCurrentResult: (state, { payload }) => {
       state.currentResult = payload;
-    },
-    isCalculated: (state, { payload }) => {
-      state.calculated = payload;
+      state.inputValue = payload;
     },
     changeLastValue: (state, { payload }) => {
       state.lastValue = payload;
     },
-    initInputValue: (state) => {
-      state.inputValue = '0';
-      state.isOperator = false;
-      state.currentList = [];
-      state.currentResult = '0';
-      state.calculated = false;
-      state.lastValue = '0';
-      state.unarNegative = '';
+    notFirstOperator: (state) => {
+      state.isFirstOperator = false;
+    },
+    notFirstDigit: (state) => {
+      state.isFirstDigit = false;
     },
     makeUnarNegative: (state, { payload }) => {
       state.unarNegative = payload;
+    },
+    isCalculated: (state, { payload }) => {
+      state.calculated = payload;
     },
   },
 });
@@ -74,14 +84,17 @@ const calculatorStatusSlice = createSlice({
 export const {
   changeCalculatorStatus,
   changeDisabledButtons,
+  changeCalcStartStatus,
   pushToCurrentList,
-  currentListPop,
-  isOperator,
+  currentListSlice,
+  currentListInit,
   changeInputValue,
   changeCurrentResult,
-  isCalculated,
   changeLastValue,
   initInputValue,
   makeUnarNegative,
+  notFirstOperator,
+  notFirstDigit,
+  isCalculated,
 } = calculatorStatusSlice.actions;
 export default calculatorStatusSlice.reducer;

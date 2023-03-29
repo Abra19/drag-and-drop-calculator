@@ -1,66 +1,21 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
+
 import {
-  currentListPop,
-  changeInputValue,
   changeCurrentResult,
+  currentListInit,
   isCalculated,
-  changeLastValue,
-  isOperator,
-} from '../slices/calculatorStatus';
-import { calcResult, calc } from '../utils';
+} from '../slices/calculatorStatus.js';
+import calcResult from '../utils/calcResult.js';
 
 const EqualButton = ({ name, onClick, onMouseDown }) => {
-  const {
-    disabledButtons,
-    currentList,
-    currentResult,
-    lastValue,
-    calculated,
-  } = useSelector((state) => state.calculator);
+  const { disabledButtons, currentList } = useSelector((state) => state.calculator);
   const dispatch = useDispatch();
 
-  const operators = ['/', 'x', '-', '+'];
-  const separator = ',';
-
   const handleClick = () => {
-    // eslint-disable-next-line functional/no-let
-    let result = 0;
-    if (currentList.length === 0 && calculated) {
-      console.log('!!!!!'); /// сюда мы не попадаем - использовать для особых операций
-      result = calc('+', Number(lastValue), Number(currentResult));
-    } else {
-      const last = currentList[currentList.length - 1];
-      if (!operators.includes(last)) {
-        dispatch(changeLastValue(last));
-      }
-      const manageStack = currentList.reduce((acc, el, i) => {
-        dispatch(currentListPop());
-        if (i === 0) {
-          return [...acc, el];
-        }
-        const next = currentList[i + 1];
-        if (operators.includes(el)) {
-          return operators.includes(next) ? acc : [...acc, el];
-        }
-        if (next === separator && el === separator) {
-          return acc;
-        }
-        const item = el === separator ? '.' : el;
-        const len = acc.length;
-        return operators.includes(acc[len - 1])
-          ? [...acc, item]
-          : [...acc.slice(0, len - 1), `${acc[len - 1]}${item}`];
-      }, []);
-
-      const addOldResult = (currentResult === '0' || (currentList.length === 0 && !calculated))
-        ? manageStack : [currentResult].concat(manageStack);
-
-      result = calcResult(addOldResult);
-    }
+    const result = calcResult(currentList);
     dispatch(changeCurrentResult(result));
-    dispatch(isOperator(true));
-    dispatch(changeInputValue(result));
+    dispatch(currentListInit());
     dispatch(isCalculated(true));
   };
 

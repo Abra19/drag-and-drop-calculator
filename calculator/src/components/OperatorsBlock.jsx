@@ -1,36 +1,56 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
+
 import {
   pushToCurrentList,
-  isOperator,
-  isCalculated,
-  changeInputValue,
   makeUnarNegative,
-} from '../slices/calculatorStatus';
+  changeCalcStartStatus,
+  changeCurrentResult,
+  notFirstOperator,
+  isCalculated,
+  currentListInit,
+  currentListSlice,
+} from '../slices/calculatorStatus.js';
+import calcResult, { operators, calcTop } from '../utils/calcResult.js';
+import { foundSubsIndex } from '../utils/utils.js';
 
 const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
   const {
     disabledButtons,
+    calcStart,
+    isFirstOperator,
     currentList,
-    unarNegative,
-    inputValue,
   } = useSelector((state) => state.calculator);
-  const operators = ['/', 'x', '-', '+'];
-
   const handleClick = (e) => {
     const { value } = e.target;
-    if (currentList.length === 0 && value === '-') {
+    const filter = currentList.filter((el) => operators.includes(el));
+
+    if (value === '-' && !calcStart) {
       dispatch(makeUnarNegative(value));
+      dispatch(changeCalcStartStatus());
+    } else if (isFirstOperator) {
+      dispatch(pushToCurrentList(value));
+      dispatch(notFirstOperator());
+    } else if (value === '+' || value === '-') {
+      const result = calcResult(currentList);
+      dispatch(changeCurrentResult(result));
+      dispatch(currentListInit());
+      dispatch(pushToCurrentList(result));
+      dispatch(pushToCurrentList(value));
+      dispatch(isCalculated(true));
+    } else if (filter[filter.length - 1] === 'x' || filter[filter.length - 1] === '/') {
+      const result = calcTop(currentList);
+      const index = foundSubsIndex(currentList);
+      dispatch(currentListSlice(index + 1));
+      dispatch(pushToCurrentList(result));
+      dispatch(pushToCurrentList(value));
+      dispatch(isCalculated(true));
+      dispatch(changeCurrentResult(result));
+    } else {
+      dispatch(pushToCurrentList(value));
+      dispatch(isCalculated(false));
     }
-    if (unarNegative.length > 0) {
-      dispatch(isOperator(true));
-      dispatch(changeInputValue(`${unarNegative}${inputValue}`));
-      dispatch(makeUnarNegative(''));
-    }
-    dispatch(pushToCurrentList(value));
-    dispatch(isOperator(true));
-    dispatch(isCalculated(false));
   };
 
   return (

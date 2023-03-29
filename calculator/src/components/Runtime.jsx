@@ -1,5 +1,5 @@
-import ManageButtons from './ManageButtons';
-import Canvas from './Canvas';
+import ManageButtons from './ManageButtons.jsx';
+import Canvas from './Canvas.jsx';
 
 const Runtime = () => (
   <div className="field d-flex flex-column">

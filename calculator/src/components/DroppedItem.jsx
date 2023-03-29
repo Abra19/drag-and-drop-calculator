@@ -1,7 +1,7 @@
-import OperatorsBlock from './OperatorsBlock';
-import DigitsBlock from './DigitsBlock';
-import EqualButton from './EqualButton';
-import DroppedInput from './DroppedInput';
+import OperatorsBlock from './OperatorsBlock.jsx';
+import DigitsBlock from './DigitsBlock.jsx';
+import EqualButton from './EqualButton.jsx';
+import DroppedInput from './DroppedInput.jsx';
 import DroppedComponent from './DroppedComponent.jsx';
 
 const DroppedItem = ({ id, onClick }) => {

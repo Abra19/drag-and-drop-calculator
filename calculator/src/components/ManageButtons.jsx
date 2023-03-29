@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+
 import {
   changeCalculatorStatus,
   changeCurrentResult,
   changeDisabledButtons,
   initInputValue,
-} from '../slices/calculatorStatus';
+} from '../slices/calculatorStatus.js';
 
 const ManageButtons = () => {
   const [disabled, setDisabled] = useState(true);

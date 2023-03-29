@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 
-import BaseComponent from './BaseComponent';
+import BaseComponent from './BaseComponent.jsx';
 import Input from './Input.jsx';
-import OperatorsBlock from './OperatorsBlock';
-import DigitsBlock from './DigitsBlock';
-import EqualButton from './EqualButton';
-import DraggedComponentStyle from '../styles/styled-components';
-import handleMouseDown from '../utils';
+import OperatorsBlock from './OperatorsBlock.jsx';
+import DigitsBlock from './DigitsBlock.jsx';
+import EqualButton from './EqualButton.jsx';
+import DraggedComponentStyle from '../styles/styled-components.js';
+import handleMouseDown from '../utils/utils.js';
 
 const Constructor = () => {
   const { calculatorStatus } = useSelector((state) => state.calculator);
