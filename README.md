@@ -17,3 +17,9 @@ React SPA - you can make your own calculator and calculate then
 1. Clone git repo: `git clone git@github.com:Abra19/drag-and-drop-calculator.git`
 2. Install packages: `make install`
 3. Build: `make build`
+
+###  Working with calculator
+1. Assemble the calculator by dragging its parts to an empty area. You can only move parts of the calculator once. If you remove them by double clicking, you can't put them back.
+2. Arrange them in the gathering area of the calculator as you wish. All parts, except the input window, can be moved relative to each other.
+3. Switch to Runtime mode and carry out your calculations.
+4. If you wish to return to Constructor mode - press the appropriate switch.
