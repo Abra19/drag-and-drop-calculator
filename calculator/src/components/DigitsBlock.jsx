@@ -9,6 +9,7 @@ import {
   changeCurrentResult,
   currentListInit,
   makeUnarNegative,
+  notFirstOperator,
 } from '../slices/calculatorStatus.js';
 
 const DigitsBlock = ({ name, onClick, onMouseDown }) => {
@@ -34,17 +35,22 @@ const DigitsBlock = ({ name, onClick, onMouseDown }) => {
       dispatch(currentListInit());
     }
 
-    if (unarNegative === '-' && (firstDigit || calculated)) {
-      const item = `${unarNegative}${value}`;
+    const makeChanges = (item) => {
+      dispatch(isCalculated(false));
       dispatch(changeInputValue(item));
       dispatch(pushToCurrentList([item]));
+    };
+
+    if (unarNegative === '-' && (firstDigit || calculated)) {
+      const item = `${unarNegative}${value}`;
+      makeChanges(item);
       dispatch(makeUnarNegative(''));
       dispatch(isFirstDigit(false));
-      dispatch(isCalculated(false));
+    } else if (firstDigit) {
+      makeChanges(value);
     } else {
-      dispatch(isCalculated(false));
-      dispatch(changeInputValue(value));
-      dispatch(pushToCurrentList([value]));
+      dispatch(notFirstOperator());
+      makeChanges(value);
     }
   };
 

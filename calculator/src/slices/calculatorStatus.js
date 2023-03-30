@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { operators } from '../utils/calcResult';
 
 const initialState = {
@@ -61,7 +61,6 @@ const calculatorStatusSlice = createSlice({
       }
     },
     changeCurrentResult: (state, { payload }) => {
-      console.log(current(state));
       state.currentResult = payload;
       state.inputValue = payload.replace('.', ',');
     },

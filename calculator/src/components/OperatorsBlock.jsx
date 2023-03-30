@@ -6,13 +6,13 @@ import {
   makeUnarNegative,
   changeCalcStartStatus,
   changeCurrentResult,
-  notFirstOperator,
   currentListInit,
   currentListSlice,
   isCalculated,
+  isFirstDigit,
 } from '../slices/calculatorStatus.js';
 import calcResult, { operators, calcTop } from '../utils/calcResult.js';
-import { foundSubsIndex } from '../utils/utils.js';
+import { foundSubsIndex, foundOperator } from '../utils/utils.js';
 
 const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
   const dispatch = useDispatch();
@@ -21,27 +21,30 @@ const OperatorsBlock = ({ name, onClick, onMouseDown }) => {
     calcStart,
     isFirstOperator,
     currentList,
-    calculated,
   } = useSelector((state) => state.calculator);
   const handleClick = (e) => {
     const { value } = e.target;
-    const filter = currentList.filter((el) => operators.includes(el));
 
-    if (value === '-' && (!calcStart || calculated)) {
+    const operator = currentList.length === 0 ? '' : foundOperator(currentList);
+    const last = currentList[currentList.length - 1];
+    const startCalc = (res) => {
+      dispatch(changeCurrentResult(res));
+      dispatch(currentListInit());
+    };
+
+    if (value === '-' && (!calcStart || currentList.length === 0)) {
       dispatch(makeUnarNegative(value));
       dispatch(changeCalcStartStatus());
-      dispatch(changeCurrentResult('0'));
-      dispatch(currentListInit());
+      startCalc('0');
     } else if (isFirstOperator) {
+      dispatch(isFirstDigit(false));
       dispatch(pushToCurrentList([value]));
-      dispatch(notFirstOperator());
-    } else if (value === '+' || value === '-') {
+    } else if ((value === '+' || value === '-') && !operators.includes(last)) {
       const result = calcResult(currentList);
       dispatch(isCalculated(false));
-      dispatch(changeCurrentResult(result));
-      dispatch(currentListInit());
+      startCalc(result);
       dispatch(pushToCurrentList([result, value]));
-    } else if (filter[filter.length - 1] === 'x' || filter[filter.length - 1] === '/') {
+    } else if (operator === 'x' || operator === '/') {
       const result = calcTop(currentList);
       const index = foundSubsIndex(currentList);
       dispatch(isCalculated(false));

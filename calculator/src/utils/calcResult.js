@@ -71,7 +71,7 @@ const calcMaked = (list) => {
 const calcResult = (list) => {
   const maked = makeNums(list);
   const copy = maked.slice(0);
-  return calcMaked(copy.reverse());
+  return calcMaked(copy.reverse()).toString();
 };
 
 export const calcTop = (list) => {
@@ -79,7 +79,7 @@ export const calcTop = (list) => {
   const [firstDigit, operator, secondDigit] = maked.slice(-3);
   const first = new bigDecimal(firstDigit);
   const second = new bigDecimal(secondDigit);
-  return calc(operator, first, second);
+  return calc(operator, first, second).toString();
 };
 
 export default calcResult;

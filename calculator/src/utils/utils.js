@@ -26,6 +26,19 @@ export const foundSubsIndex = (arr) => {
   return arr.slice(0, digitIndex).findLastIndex((el) => !el.match(/[\d ,]/));
 };
 
+export const foundOperator = (arr) => {
+  // eslint-disable-next-line functional/no-let
+  let lastOperatorIndex = -1;
+
+  if (arr[arr.length - 1].match(/[\d ,]/)) {
+    lastOperatorIndex = arr.findLastIndex((el) => !el.match(/[\d ,]/));
+  } else {
+    const lastDigitIndex = arr.findLastIndex((el) => el.match(/[\d ,]/));
+    lastOperatorIndex = arr.slice(0, lastDigitIndex + 1).findLastIndex((el) => !el.match(/[\d ,]/));
+  }
+  return arr[lastOperatorIndex];
+};
+
 const handleMouseDown = (e) => {
   e.stopPropagation();
   e.preventDefault();
