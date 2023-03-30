@@ -48,22 +48,30 @@ const calcMaked = (list) => {
   if (list.length === 1) {
     return list[0];
   }
+  const error = 'Не определено';
+  if (list.includes(error)) {
+    return error;
+  }
   if (operators.includes(list[0])) {
     const [operator, firstDigit, ...rest] = list;
     const first = new bigDecimal(firstDigit);
-    return calcMaked([calc(operator, first, first), ...rest]);
+    return rest.length === 0
+      ? calc(operator, first, first)
+      : calcMaked([calc(operator, first, first), ...rest]);
   }
 
   const [secondDigit, operator, firstDigit, ...rest] = list;
   const first = new bigDecimal(firstDigit);
   const second = new bigDecimal(secondDigit);
-  return calcMaked([calc(operator, first, second), ...rest]);
+  return rest.length === 0
+    ? calc(operator, first, second)
+    : calcMaked([calc(operator, first, second), ...rest]);
 };
 
 const calcResult = (list) => {
   const maked = makeNums(list);
-  const result = maked.slice(0);
-  return calcMaked(result.reverse());
+  const copy = maked.slice(0);
+  return calcMaked(copy.reverse());
 };
 
 export const calcTop = (list) => {

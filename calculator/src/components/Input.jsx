@@ -5,9 +5,10 @@ const Input = ({ name, onClick, onMouseDown }) => {
 
   // eslint-disable-next-line functional/no-let
   let fontSize = '34px';
-  if (inputValue.length > 10 && inputValue.length <= 15) {
+  const len = inputValue.toString().length;
+  if (len > 10 && len <= 15) {
     fontSize = '24px';
-  } else if (inputValue.length > 15) {
+  } else if (len > 15) {
     fontSize = '19px';
   }
 

@@ -21,9 +21,9 @@ export const calc = (operator, first, second) => {
 };
 
 export const foundSubsIndex = (arr) => {
-  const lastOperatorIndex = arr.findLastIndex((el) => !el.match(/[\d .]/));
-  const digitIndex = arr.slice(0, lastOperatorIndex).findLastIndex((el) => el.match(/[\d .]/));
-  return arr.slice(0, digitIndex).findLastIndex((el) => !el.match(/[\d .]/));
+  const lastOperatorIndex = arr.findLastIndex((el) => !el.match(/[\d ,]/));
+  const digitIndex = arr.slice(0, lastOperatorIndex).findLastIndex((el) => el.match(/[\d ,]/));
+  return arr.slice(0, digitIndex).findLastIndex((el) => !el.match(/[\d ,]/));
 };
 
 const handleMouseDown = (e) => {

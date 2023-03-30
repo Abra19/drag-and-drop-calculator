@@ -2,10 +2,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import {
   pushToCurrentList,
-  notFirstDigit,
+  isFirstDigit,
   changeInputValue,
   changeCalcStartStatus,
   isCalculated,
+  changeCurrentResult,
+  currentListInit,
+  makeUnarNegative,
 } from '../slices/calculatorStatus.js';
 
 const DigitsBlock = ({ name, onClick, onMouseDown }) => {
@@ -14,26 +17,34 @@ const DigitsBlock = ({ name, onClick, onMouseDown }) => {
   const {
     disabledButtons,
     unarNegative,
-    isFirstDigit,
+    firstDigit,
+    calculated,
   } = useSelector((state) => state.calculator);
   const values = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ','];
   const styles = Array(9).fill('chiffre base-text').concat(['chiffre g-big base-text'], ['chiffre base-text']);
 
   const handleClick = (e) => {
     const { value } = e.target;
-    if (isFirstDigit) {
+
+    if (firstDigit) {
       dispatch(changeCalcStartStatus());
     }
-    if (unarNegative === '-' && isFirstDigit) {
+    if (calculated) {
+      dispatch(changeCurrentResult('0'));
+      dispatch(currentListInit());
+    }
+
+    if (unarNegative === '-' && (firstDigit || calculated)) {
       const item = `${unarNegative}${value}`;
       dispatch(changeInputValue(item));
-      dispatch(pushToCurrentList(item));
-      dispatch(notFirstDigit());
+      dispatch(pushToCurrentList([item]));
+      dispatch(makeUnarNegative(''));
+      dispatch(isFirstDigit(false));
+      dispatch(isCalculated(false));
     } else {
-      dispatch(notFirstDigit());
       dispatch(isCalculated(false));
       dispatch(changeInputValue(value));
-      dispatch(pushToCurrentList(value));
+      dispatch(pushToCurrentList([value]));
     }
   };
 

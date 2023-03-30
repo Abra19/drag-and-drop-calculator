@@ -6,12 +6,11 @@ const initialState = {
   calculatorStatus: false,
   disabledButtons: true,
   inputValue: '0',
-  currentResult: '',
+  currentResult: '0',
   currentList: [],
   calcStart: false,
   isFirstOperator: true,
-  isFirstDigit: true,
-  lastValue: '',
+  firstDigit: true,
   unarNegative: '',
   calculated: false,
 };
@@ -26,22 +25,20 @@ const calculatorStatusSlice = createSlice({
     changeDisabledButtons: (state, { payload }) => {
       state.disabledButtons = payload;
     },
-    initInputValue: (state) => {
+    initCalculation: (state) => {
       state.inputValue = '0';
       state.currentList = [];
       state.currentResult = '';
       state.calculated = false;
-      state.lastValue = '';
       state.unarNegative = '';
       state.isFirstOperator = true;
-      state.isFirstDigit = true;
+      state.firstDigit = true;
     },
     changeCalcStartStatus: (state) => {
       state.calcStart = true;
     },
     pushToCurrentList: (state, { payload }) => {
-      state.currentList.push(payload);
-      console.log(current(state));
+      state.currentList = payload.reduce((acc, el) => [...acc, el], state.currentList);
     },
     currentListSlice: (state, { payload }) => {
       state.currentList = state.currentList.slice(0, payload);
@@ -50,27 +47,29 @@ const calculatorStatusSlice = createSlice({
       state.currentList = [];
     },
     changeInputValue: (state, { payload }) => {
+      const value = payload.replace('.', ',');
       const el = state.currentList[state.currentList.length - 1];
-      state.inputValue = (state.inputValue === '0' || operators.includes(el)) ? payload : `${state.inputValue}${payload}`;
+      state.inputValue = (state.inputValue === '0' || operators.includes(el)) ? value : `${state.inputValue}${value}`;
       if (payload === ',' && state.inputValue === ',') {
         state.inputValue = '0,';
       }
+      if (payload === ',' && state.inputValue.slice(0, state.inputValue.length - 1).includes(',')) {
+        state.inputValue = state.inputValue.slice(0, state.inputValue.length - 1);
+      }
       if (state.calculated) {
-        state.inputValue = payload;
+        state.inputValue = value;
       }
     },
     changeCurrentResult: (state, { payload }) => {
+      console.log(current(state));
       state.currentResult = payload;
-      state.inputValue = payload;
-    },
-    changeLastValue: (state, { payload }) => {
-      state.lastValue = payload;
+      state.inputValue = payload.replace('.', ',');
     },
     notFirstOperator: (state) => {
       state.isFirstOperator = false;
     },
-    notFirstDigit: (state) => {
-      state.isFirstDigit = false;
+    isFirstDigit: (state, { payload }) => {
+      state.firstDigit = payload;
     },
     makeUnarNegative: (state, { payload }) => {
       state.unarNegative = payload;
@@ -90,11 +89,10 @@ export const {
   currentListInit,
   changeInputValue,
   changeCurrentResult,
-  changeLastValue,
-  initInputValue,
+  initCalculation,
   makeUnarNegative,
   notFirstOperator,
-  notFirstDigit,
+  isFirstDigit,
   isCalculated,
 } = calculatorStatusSlice.actions;
 export default calculatorStatusSlice.reducer;

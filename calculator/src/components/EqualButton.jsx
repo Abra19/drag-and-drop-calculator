@@ -3,8 +3,10 @@ import { Button } from 'react-bootstrap';
 
 import {
   changeCurrentResult,
+  changeInputValue,
   currentListInit,
   isCalculated,
+  pushToCurrentList,
 } from '../slices/calculatorStatus.js';
 import calcResult from '../utils/calcResult.js';
 
@@ -15,7 +17,11 @@ const EqualButton = ({ name, onClick, onMouseDown }) => {
   const handleClick = () => {
     const result = calcResult(currentList);
     dispatch(changeCurrentResult(result));
+    if (result === '') {
+      dispatch(changeInputValue('0'));
+    }
     dispatch(currentListInit());
+    dispatch(pushToCurrentList([result]));
     dispatch(isCalculated(true));
   };
 

@@ -6,7 +6,7 @@ import {
   changeCalculatorStatus,
   changeCurrentResult,
   changeDisabledButtons,
-  initInputValue,
+  initCalculation,
 } from '../slices/calculatorStatus.js';
 
 const ManageButtons = () => {
@@ -19,7 +19,7 @@ const ManageButtons = () => {
     setDisabled((prevState) => !prevState);
     dispatch(changeCalculatorStatus(!calculatorStatus));
     dispatch(changeDisabledButtons(calculatorStatus));
-    dispatch(initInputValue());
+    dispatch(initCalculation());
     dispatch(changeCurrentResult('0'));
   };
 
